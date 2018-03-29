@@ -12,7 +12,7 @@ DMDPATH = "./test/MOMM_full_dmd.dmd"
 OUTPATH = "./test/data/"
 
 
-def parse(path = None):
+def parse(path=None):
 
     _table_flag = False
 
