@@ -8,13 +8,15 @@ COL_DEF_HEADER = "$"
 
 #paths
 NETPATH = "./test/MOMM_net.net"
+DMDPATH = "./test/MOMM_full_dmd.dmd"
 OUTPATH = "./test/data/"
 
-def parse_net():
+
+def parse(path = None):
 
     _table_flag = False
 
-    with codecs.open(NETPATH, encoding='utf-8', errors='ignore') as net:
+    with codecs.open(path, encoding='utf-8', errors='ignore') as net:
 
         for line in net:
             if line.startswith(TABLE_NAME_HEADER):
@@ -38,8 +40,10 @@ def parse_net():
                 data.append(line.split(COL_DELIMITER))
 
 
+
 if __name__ == "__main__":
-    parse_net()
+    parse(DMDPATH)
+    parse(NETPATH)
 
 
 
