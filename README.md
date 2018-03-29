@@ -20,5 +20,5 @@ run `test.py` to see if the `links.csv` is as we expect and if `matrix entries.c
 ## possible modifications
 
 * `pd.DataFrame(data, columns=cols).to_csv(OUTPATH+table_name+".csv")` can be easily modified to be used directly in pandas (e.g. dict of DataFrames, or h5 store).
-* pipeline can be smoother if this is called from within Visum, you shall add Visum.IO.SaveNet, Visum.IO.SaveDmd to prepare the files under good paths and then use them in `parse`
+* pipeline can be smoother if this is called from within Visum, you shall add `Visum.IO.SaveNet, Visum.IO.SaveDmd` to prepare the files under good paths and then use them in `parse`
 
