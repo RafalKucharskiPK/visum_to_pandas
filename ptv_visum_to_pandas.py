@@ -10,56 +10,87 @@ NEWLINE_WIN = "\r\n"
 NEWLINE_MAC = "\n"
 NEWLINES = [NEWLINE_WIN, NEWLINE_MAC]
 
-#paths
+# params
+LIMIT = 100000  # number of lines to break the csv into separate files
+
+
+# paths
 NETPATH = "./test/MOMM_net.net"
 DMDPATH = "./test/MOMM_full_dmd.dmd"
-OUTPATH = "./test/data/"
+OUTPATH = "./test/data/"  # save the .csv's here
 
 
 def parse(path=None):
-
+    """
+    Main function to parse the editable PTV Visum export files (.net and .dmd).
+    It parses line by line and listens for table header, column definitions, data and table end.
+    It stores the data to csvs (one csv per Visum table)
+    :param path:
+    :return:
+    """
     _table_flag = False
     _line_count = 0
-    cols = None
+    _cols = None
+    _split_count = 0
+    _split_flag = 0
+    table_name = None
 
     with codecs.open(path, encoding='utf-8', errors='ignore') as net:
 
         for line in net:
             if line.startswith(TABLE_NAME_HEADER):
                 # new table
-                table_name = line.split(ATTR_DELIMITER)[-1].replace(" ","").replace(NEWLINE_WIN, "")
+                table_name = line.split(ATTR_DELIMITER)[-1].replace(" ", "").replace(NEWLINE_WIN, "")
                 print("Exporting table: ", table_name)
                 _line_count = 0
             if line[0] == COL_DEF_HEADER:
                 # line with column names
                 _table_flag = True
                 data = list()  # initialize data
-                try:
-                    cols = line.split(":")[1].split(COL_DELIMITER)
-                except:
-                    cols = line.split(COL_DELIMITER)
-            if line in NEWLINES:
-                _table_flag = False
+                _split_count = 0
+                line = line.replace(NEWLINE_WIN, "").replace("\r", "")
+                if len(line.split(":")) > 1:
+                    _cols = line.split(":")[1].split(COL_DELIMITER)
+                else:
+                    _cols = line.split(COL_DELIMITER)
+            if line in NEWLINES or _split_flag:
+                if not _split_flag:
+                    _table_flag = False
                 if len(data) > 0:
                     # only if table is not empty
-                    if cols is not None:
-                        pd.DataFrame(data, columns=cols).to_csv(OUTPATH+table_name.split(" ")[0]+".csv")
+                    if _cols is not None:
+                        _file_name = OUTPATH+table_name.split(" ")[0]
+                        if _split_count > 0:
+                            _file_name += "_" + str(_split_count)
+                        _file_name += ".csv"
+                        pd.DataFrame(data, columns=_cols).to_csv(_file_name)
                         print("Exported {} objects in table: {} - saved to {}"
-                              .format(_line_count, table_name, OUTPATH+table_name.split(" ")[0]+".csv"))
+                              .format(_line_count, table_name, _file_name))
+                        data = list()  # initialize data
+                        _line_count = 0
+                        _split_flag = False
 
             if _table_flag and line[0] != COL_DEF_HEADER:
-                data.append(line.split(COL_DELIMITER))
+                data.append(line.replace(NEWLINE_WIN, "").split(COL_DELIMITER))
                 _line_count += 1
+                if _line_count >= LIMIT:
+                    _split_count += 1
+                    _split_flag = True
+
+
+def test_read(_path):
+    df = pd.read_csv(_path)
+    df = df.set_index(df["Unnamed: 0"])
+    del df["Unnamed: 0"]
+    print(df.columns)
+    print(df.head())
+    print(df.describe().T)
 
 
 if __name__ == "__main__":
+
     parse(DMDPATH)
     parse(NETPATH)
 
-
-
-
-
-
-
-
+    test_read("./test/data/Tripgeneration.csv")
+    test_read("./test/data/Links.csv")

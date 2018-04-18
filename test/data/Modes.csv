@@ -1,12 +1,6 @@
-,CODE,NAME,TSYSSET,"INTERCHANGEABLE
-"
-0,PuT,PuT,"B,M,Tr,W","1
-"
-1,SC,Ciarowe,SC,"1
-"
-2,SCp,Ciarowe z przyczepami,SCp,"1
-"
-3,SD,Samochd dostawczy,SD,"1
-"
-4,SO,Samochd osobowy,SO,"1
-"
+,CODE,NAME,TSYSSET,INTERCHANGEABLE
+0,PuT,PuT,"B,M,Tr,W",1
+1,SC,Ciarowe,SC,1
+2,SCp,Ciarowe z przyczepami,SCp,1
+3,SD,Samochd dostawczy,SD,1
+4,SO,Samochd osobowy,SO,1

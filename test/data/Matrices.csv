@@ -1,76 +1,38 @@
-,NO,CODE,NAME,MATRIXTYPE,OBJECTTYPEREF,DSEGCODE,DSTRATCODE,DSTRATSET,FILENAME,NUMDECPLACES,DATASOURCETYPE,FORMULA,DAY,FROMTIME,TOTIME,TIMEREF,DMODELCODE,PERSONGROUPCODE,ACTIVITYCODE,ORIGACTIVITYCODE,DESTACTIVITYCODE,MODECODE,MODESET,PERSONGROUPSET,ORIGACTIVITYSET,DESTACTIVITYSET,"SUMOWANA
-"
-0,10,TT0,t0 SO,Skim,Zone,SO,,,,2,Data,,,,,NEUTRAL,,,,,,,,,,,"0
-"
-1,11,TTC,tCur SO,Skim,Zone,SO,,,,2,Data,,,,,NEUTRAL,,,,,,,,,,,"0
-"
-2,12,DIS,Trip distance SO,Skim,Zone,SO,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,"0
-"
-3,20,JRT,Journey time PuT,Skim,Zone,PuT,,,,2,Data,,,,,NEUTRAL,,,,,,,,,,,"0
-"
-4,101,,Distribution 01 D-P,Demand,Zone,,01 D-P,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,"0
-"
-5,102,,Distribution 02 P-D,Demand,Zone,,02 P-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,"0
-"
-6,103,,Distribution 03 D-N,Demand,Zone,,03 D-N,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,"0
-"
-7,104,,Distribution 04 N-D,Demand,Zone,,04 N-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,"0
-"
-8,105,,Distribution 05 D-U,Demand,Zone,,05 D-U,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,"0
-"
-9,106,,Distribution 06 U-D,Demand,Zone,,06 U-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,"0
-"
-10,107,,Distribution 07 D-I,Demand,Zone,,07 D-I,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,"0
-"
-11,108,,Distribution 08 I-D,Demand,Zone,,08 I-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,"0
-"
-12,109,,Distribution 09 NZD,Demand,Zone,,09 NZD,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,"0
-"
-13,201,,Mode choice 01 D-P x PuT,Demand,Zone,,01 D-P,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,"0
-"
-14,202,,Mode choice 01 D-P x SO,Demand,Zone,,01 D-P,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,"0
-"
-15,203,,Mode choice 02 P-D x PuT,Demand,Zone,,02 P-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,"0
-"
-16,204,,Mode choice 02 P-D x SO,Demand,Zone,,02 P-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,"0
-"
-17,205,,Mode choice 03 D-N x PuT,Demand,Zone,,03 D-N,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,"0
-"
-18,206,,Mode choice 03 D-N x SO,Demand,Zone,,03 D-N,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,"0
-"
-19,207,,Mode choice 04 N-D x PuT,Demand,Zone,,04 N-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,"0
-"
-20,208,,Mode choice 04 N-D x SO,Demand,Zone,,04 N-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,"0
-"
-21,209,,Mode choice 05 D-U x PuT,Demand,Zone,,05 D-U,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,"0
-"
-22,210,,Mode choice 05 D-U x SO,Demand,Zone,,05 D-U,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,"0
-"
-23,211,,Mode choice 06 U-D x PuT,Demand,Zone,,06 U-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,"0
-"
-24,212,,Mode choice 06 U-D x SO,Demand,Zone,,06 U-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,"0
-"
-25,213,,Mode choice 07 D-I x PuT,Demand,Zone,,07 D-I,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,"0
-"
-26,214,,Mode choice 07 D-I x SO,Demand,Zone,,07 D-I,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,"0
-"
-27,215,,Mode choice 08 I-D x PuT,Demand,Zone,,08 I-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,"0
-"
-28,216,,Mode choice 08 I-D x SO,Demand,Zone,,08 I-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,"0
-"
-29,217,,Mode choice 09 NZD x PuT,Demand,Zone,,09 NZD,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,"0
-"
-30,218,,Mode choice 09 NZD x SO,Demand,Zone,,09 NZD,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,"0
-"
-31,1001,,Macierz dobowa SO,Demand,Zone,,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,"1
-"
-32,1002,,Macierz poranna SO,Demand,Zone,SO,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,"1
-"
-33,1003,,Macierz popoudniowa SO,Demand,Zone,,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,"1
-"
-34,2001,,Macierz dobowa PuT,Demand,Zone,PuT,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,"1
-"
-35,2002,,Macierz poranna PuT,Demand,Zone,,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,"1
-"
-36,2003,,Macierz popoudniowa PuT,Demand,Zone,,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,"1
-"
+,NO,CODE,NAME,MATRIXTYPE,OBJECTTYPEREF,DSEGCODE,DSTRATCODE,DSTRATSET,FILENAME,NUMDECPLACES,DATASOURCETYPE,FORMULA,DAY,FROMTIME,TOTIME,TIMEREF,DMODELCODE,PERSONGROUPCODE,ACTIVITYCODE,ORIGACTIVITYCODE,DESTACTIVITYCODE,MODECODE,MODESET,PERSONGROUPSET,ORIGACTIVITYSET,DESTACTIVITYSET,SUMOWANA
+0,10,TT0,t0 SO,Skim,Zone,SO,,,,2,Data,,,,,NEUTRAL,,,,,,,,,,,0
+1,11,TTC,tCur SO,Skim,Zone,SO,,,,2,Data,,,,,NEUTRAL,,,,,,,,,,,0
+2,12,DIS,Trip distance SO,Skim,Zone,SO,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,0
+3,20,JRT,Journey time PuT,Skim,Zone,PuT,,,,2,Data,,,,,NEUTRAL,,,,,,,,,,,0
+4,101,,Distribution 01 D-P,Demand,Zone,,01 D-P,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,0
+5,102,,Distribution 02 P-D,Demand,Zone,,02 P-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,0
+6,103,,Distribution 03 D-N,Demand,Zone,,03 D-N,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,0
+7,104,,Distribution 04 N-D,Demand,Zone,,04 N-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,0
+8,105,,Distribution 05 D-U,Demand,Zone,,05 D-U,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,0
+9,106,,Distribution 06 U-D,Demand,Zone,,06 U-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,0
+10,107,,Distribution 07 D-I,Demand,Zone,,07 D-I,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,0
+11,108,,Distribution 08 I-D,Demand,Zone,,08 I-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,0
+12,109,,Distribution 09 NZD,Demand,Zone,,09 NZD,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,,,,,,0
+13,201,,Mode choice 01 D-P x PuT,Demand,Zone,,01 D-P,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,0
+14,202,,Mode choice 01 D-P x SO,Demand,Zone,,01 D-P,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,0
+15,203,,Mode choice 02 P-D x PuT,Demand,Zone,,02 P-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,0
+16,204,,Mode choice 02 P-D x SO,Demand,Zone,,02 P-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,0
+17,205,,Mode choice 03 D-N x PuT,Demand,Zone,,03 D-N,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,0
+18,206,,Mode choice 03 D-N x SO,Demand,Zone,,03 D-N,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,0
+19,207,,Mode choice 04 N-D x PuT,Demand,Zone,,04 N-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,0
+20,208,,Mode choice 04 N-D x SO,Demand,Zone,,04 N-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,0
+21,209,,Mode choice 05 D-U x PuT,Demand,Zone,,05 D-U,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,0
+22,210,,Mode choice 05 D-U x SO,Demand,Zone,,05 D-U,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,0
+23,211,,Mode choice 06 U-D x PuT,Demand,Zone,,06 U-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,0
+24,212,,Mode choice 06 U-D x SO,Demand,Zone,,06 U-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,0
+25,213,,Mode choice 07 D-I x PuT,Demand,Zone,,07 D-I,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,0
+26,214,,Mode choice 07 D-I x SO,Demand,Zone,,07 D-I,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,0
+27,215,,Mode choice 08 I-D x PuT,Demand,Zone,,08 I-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,0
+28,216,,Mode choice 08 I-D x SO,Demand,Zone,,08 I-D,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,0
+29,217,,Mode choice 09 NZD x PuT,Demand,Zone,,09 NZD,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,PuT,,,,,0
+30,218,,Mode choice 09 NZD x SO,Demand,Zone,,09 NZD,,,3,Data,,,,,NEUTRAL,Model Popytu,,,,,SO,,,,,0
+31,1001,,Macierz dobowa SO,Demand,Zone,,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,1
+32,1002,,Macierz poranna SO,Demand,Zone,SO,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,1
+33,1003,,Macierz popoudniowa SO,Demand,Zone,,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,1
+34,2001,,Macierz dobowa PuT,Demand,Zone,PuT,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,1
+35,2002,,Macierz poranna PuT,Demand,Zone,,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,1
+36,2003,,Macierz popoudniowa PuT,Demand,Zone,,,,,3,Data,,,,,NEUTRAL,,,,,,,,,,,1

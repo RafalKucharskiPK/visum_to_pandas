@@ -1,0 +1,5 @@
+,NO,NAME,DEFDURATION,DEFLENGTH,TIMELIMIT,LENGTHLIMIT
+0,1,Vehicle journey,0s,0.000km,0s,0.000km
+1,2,Empty trip,0s,0.000km,0s,0.000km
+2,3,Layover,0s,0.000km,0s,0.000km
+3,4,Preparation time,0s,0.000km,0s,0.000km
