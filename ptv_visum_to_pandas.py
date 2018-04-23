@@ -20,6 +20,18 @@ DMDPATH = "./test/MOMM_full_dmd.dmd"
 OUTPATH = "./test/data/"  # save the .csv's here
 
 
+def Mtx_to_csv(Visum,path):
+    cols = Visum.Net.Zones.GetMultiAttValues('No')
+    cols = [_[1] for _ in cols]
+    Iterator = Visum.Net.Matrices.Iterator
+    while Iterator.Valid:
+        mtx = Iterator.Item
+        no = str(mtx.AttValue("No"))
+        vals = list(mtx.GetValuesFloat())
+        df = pd.DataFrame(vals, cols, cols)
+        df.to_csv(path + no + ".csv")
+        Iterator.Next()
+
 def parse(path=None):
     """
     Main function to parse the editable PTV Visum export files (.net and .dmd).
@@ -35,7 +47,7 @@ def parse(path=None):
     _split_flag = 0
     table_name = None
 
-    with codecs.open(path, encoding='utf-8', errors='ignore') as net:
+    with codecs.open(path, 'rt', encoding='utf-8', errors='ignore') as net:
 
         for line in net:
             if line.startswith(TABLE_NAME_HEADER):
