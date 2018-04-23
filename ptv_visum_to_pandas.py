@@ -1,5 +1,6 @@
 import codecs
 import pandas as pd
+import os
 
 # semantics
 COL_DELIMITER = ";"
@@ -13,24 +14,36 @@ NEWLINES = [NEWLINE_WIN, NEWLINE_MAC]
 # params
 LIMIT = 100000  # number of lines to break the csv into separate files
 
-
 # paths
 NETPATH = "./test/MOMM_net.net"
 DMDPATH = "./test/MOMM_full_dmd.dmd"
 OUTPATH = "./test/data/"  # save the .csv's here
+VERPATH = "./test/test_matrices.ver"
+
+VERPATH = "E:\\wbr.ver"
+OUTPATH = "E:/csvs/"
 
 
-def Mtx_to_csv(Visum,path):
-    cols = Visum.Net.Zones.GetMultiAttValues('No')
-    cols = [_[1] for _ in cols]
-    Iterator = Visum.Net.Matrices.Iterator
-    while Iterator.Valid:
-        mtx = Iterator.Item
-        no = str(mtx.AttValue("No"))
+def matrices(path):
+    if 'Visum' in dir():
+        pass
+    else:
+        import win32com.client
+        Visum = win32com.client.Dispatch('Visum.Visum.16')
+        Visum.LoadVersion(os.path.join(os.getcwd(), path))
+
+    cols = Visum.Net.Zones.GetMultiAttValues('No', False)
+    cols = [int(_[1]) for _ in cols]
+    iterator = Visum.Net.Matrices.Iterator
+    while iterator.Valid:
+        mtx = iterator.Item
+        no = str(int(mtx.AttValue("No")))
         vals = list(mtx.GetValuesFloat())
         df = pd.DataFrame(vals, cols, cols)
-        df.to_csv(path + no + ".csv")
-        Iterator.Next()
+        df.to_csv(OUTPATH + "MTX_" + no + ".csv")
+        print('Exported mtx {} to file'.format(no))
+        iterator.Next()
+
 
 def parse(path=None):
     """
@@ -47,7 +60,7 @@ def parse(path=None):
     _split_flag = 0
     table_name = None
 
-    with codecs.open(path, 'rt', encoding='utf-8', errors='ignore') as net:
+    with codecs.open(path, encoding='utf-8', errors='ignore') as net:
 
         for line in net:
             if line.startswith(TABLE_NAME_HEADER):
@@ -100,9 +113,11 @@ def test_read(_path):
 
 
 if __name__ == "__main__":
-
+    matrices(VERPATH)
+    quit()
     parse(DMDPATH)
     parse(NETPATH)
 
     test_read("./test/data/Tripgeneration.csv")
     test_read("./test/data/Links.csv")
+    test_read("./test/data/Mtx_10.csv")
