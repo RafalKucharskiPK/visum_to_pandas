@@ -40,6 +40,10 @@ We link [PTV Visum](http://vision-traffic.ptvgroup.com/en-us/products/ptv-visum/
 
 run `test.py` to see if the `links.csv` is as we expect and if `matrix entries.csv` are the same. Use only for the original files.
 
+## contributors
+
+https://github.com/PatrikHlobil
+
 ## possible modifications
 
 * `pd.DataFrame(data, columns=cols).to_csv(OUTPATH+table_name+".csv")` can be easily modified to be used directly in pandas (e.g. dict of DataFrames, or h5 store).
