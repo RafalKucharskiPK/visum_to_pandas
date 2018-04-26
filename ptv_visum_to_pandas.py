@@ -45,13 +45,17 @@ def matrices(path):
         iterator.Next()
 
 
-def parse(path=None):
+def parse(path, export_path=None, export=None):
     """
-    Main function to parse the editable PTV Visum export files (.net and .dmd).
-    It parses line by line and listens for table header, column definitions, data and table end.
-    It stores the data to csvs (one csv per Visum table)
-    :param path:
-    :return:
+Main function to parse the editable PTV Visum export files (.net and .dmd).
+It parses line by line and listens for table header, column definitions, data and table end.
+It stores the data to csvs (one csv per Visum table)
+:param path: Path of the net file to process
+:param export_path (optional): Path to folder, where to save the CSV files.
+                               If not specified, the CSV files are save in
+                               folder of the net files.
+:param export (optional): List of network objects that should be exported. If
+                          not specified, all network objects will be exported.
     """
     _table_flag = False
     _line_count = 0
@@ -60,12 +64,29 @@ def parse(path=None):
     _split_flag = 0
     table_name = None
 
+    #use path of net-file for export if no export_path is specified:
+    if export_path == None:
+        export_path = os.path.dirname(path)
+
+    #Autodetect COL_DELIMITER:
+    with codecs.open(path, encoding='utf-8', errors='ignore') as net:
+
+        for line in net:
+            if "$VERSION:" in line:
+                tmp = line.replace("$VERSION:","").strip()
+                for delimiter in [" ", ";", "\t"]:
+                    if delimiter in tmp:
+                        COL_DELIMITER = delimiter
+                break
+
+    print('Use delimiter "%s"'%COL_DELIMITER)
+
     with codecs.open(path, encoding='utf-8', errors='ignore') as net:
 
         for line in net:
             if line.startswith(TABLE_NAME_HEADER):
                 # new table
-                table_name = line.split(ATTR_DELIMITER)[-1].replace(" ", "").replace(NEWLINE_WIN, "")
+                table_name = line.split(ATTR_DELIMITER)[-1].replace(" ", "").strip()
                 print("Exporting table: ", table_name)
                 _line_count = 0
             if line[0] == COL_DEF_HEADER:
@@ -84,19 +105,25 @@ def parse(path=None):
                 if len(data) > 0:
                     # only if table is not empty
                     if _cols is not None:
-                        _file_name = OUTPATH+table_name.split(" ")[0]
+                        _file_name = os.path.join(export_path,table_name)
                         if _split_count > 0:
                             _file_name += "_" + str(_split_count)
                         _file_name += ".csv"
-                        pd.DataFrame(data, columns=_cols).to_csv(_file_name)
-                        print("Exported {} objects in table: {} - saved to {}"
-                              .format(_line_count, table_name, _file_name))
+                        if export != None:
+                            if table_name in export:
+                                pd.DataFrame(data, columns=_cols).to_csv(_file_name, index = False)
+                                print("Exported {} objects in table: {} - saved to {}"
+                                      .format(_line_count, table_name, _file_name))
+                        else:
+                            pd.DataFrame(data, columns=_cols).to_csv(_file_name, index = False)
+                            print("Exported {} objects in table: {} - saved to {}"
+                                  .format(_line_count, table_name, _file_name))
                         data = list()  # initialize data
                         _line_count = 0
                         _split_flag = False
 
             if _table_flag and line[0] != COL_DEF_HEADER:
-                data.append(line.replace(NEWLINE_WIN, "").split(COL_DELIMITER))
+                data.append(line.strip().split(COL_DELIMITER))
                 _line_count += 1
                 if _line_count >= LIMIT:
                     _split_count += 1
@@ -117,6 +144,7 @@ if __name__ == "__main__":
     quit()
     parse(DMDPATH)
     parse(NETPATH)
+    parse(NETPATH, export=["Links","Nodes"])
 
     test_read("./test/data/Tripgeneration.csv")
     test_read("./test/data/Links.csv")
