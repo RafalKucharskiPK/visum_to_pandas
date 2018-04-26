@@ -4,10 +4,33 @@ python scripts to parse visum .net and .dmd file to pandas and store as .csv fil
 
 ## usage
 
-* save you .ver file to .dmd and .net (Visum->File->Save As -> Network/Demand Model)
-* either modify paths inside the script `NETPATH`, `DMDPATH`, or overwrite files in [test](https://github.com/RafalKucharskiPK/visum_to_pandas/blob/master/test/MOMM_net.net)
-* run the script (cmd/python, pywin, pycharm console, visum python console, etc.)
-* enjoy the csv files to be analyzed with pandas
+open `ptv_visum_to_pandas.py` and go to `main()` where you can find the below pipeline:
+
+   ### 0. Set your paths - your ver files and export paths
+    NETPATH = "./test/MOMM_net.net"  # .net file to parse into csv tables
+    DMDPATH = "./test/MOMM_full_dmd.dmd"  # .dmd file to parse into csv tables
+    OUTPATH = "./test/data/"  # save the .csv's here
+    VERPATH = "./test/test_matrices.ver"
+    
+   ### 1. Export .ver file to editable .net and .dmd
+    export_net_dmd(path=VERPATH)
+
+   ### 2. export network to csv
+    parse(NETPATH, export_path=OUTPATH) # a) full export
+    parse(NETPATH, export_path=OUTPATH, export_list=["Links", "Nodes"])  # b) just some tables
+
+   ### 3. export demand files to csv
+    parse(DMDPATH, export_path=OUTPATH)
+
+   ### 4. Export matrices (export from .dmd is not very useful)
+    matrices_export_via_com(VERPATH, export_path=OUTPATH)  # a) full export
+    matrices_export_via_com(VERPATH, export_path=OUTPATH, export_list=[101, 102])   # b) just some matrices
+    
+  ### 5. see if everything went fine and understand how to use it further with pandas
+    test_read("./test/data/Tripgeneration.csv")
+    test_read("./test/data/Links.csv")
+    test_read("./test/data/Mtx_10.csv")  
+
 
 ## Third party
 

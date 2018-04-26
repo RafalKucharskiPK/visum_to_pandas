@@ -1,5 +1,5 @@
-,OBJID,ATTID,NAME
-0,LINK,Q_POPO,Pomiar popoudniowy
-1,LINK,Q_RANO,Pomiar poranny
-2,LINK,VOLPERSPUT(AP),Potok pasaerw
-3,LINK,VOLVEHPRT(AP),Potok pojazdw
+OBJID,ATTID,NAME
+LINK,Q_POPO,Pomiar popoudniowy
+LINK,Q_RANO,Pomiar poranny
+LINK,VOLPERSPUT(AP),Potok pasaerw
+LINK,VOLVEHPRT(AP),Potok pojazdw
