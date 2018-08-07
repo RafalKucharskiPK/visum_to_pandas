@@ -14,6 +14,8 @@ DEP_TIME = "08:00"
 KRYTERIUM = 3
 MATRIX_NO = 102
 
+BUDGET = 120
+
 
 POI_CAT = 1
 """
@@ -94,6 +96,47 @@ def POI2NearestSPoint(Visum):
         Iterator.Next()
     Visum.Graphic.StopDrawing = False
 
+def MainLoopStages(Visum):
+    Visum.Graphic.StopDrawing = True  # nie rysuj (przyspieszenie)
+    # inicjalizacja bazy dancyh (do csv)
+    df_s1 = pd.DataFrame(columns=["Z_Rejon", "Do_POI", "Czas_PrT", "Czas_PuT"])
+    df_s2 = pd.DataFrame(columns=["Z_POI", "Do_Rejon", "Czas_PrT", "Czas_PuT"])
+
+    Zones = Visum.Net.Zones.GetMultiAttValues("No")  # rejony do iteracji
+    # dane o POI
+    POIs = Visum.Net.POICategories.ItemByKey(1).POIs.GetMultipleAttributes(["No", "Node", "SPoint", "Dist_PrT", "Dist_PuT"])
+
+    # glowna petla
+    for OZone in Zones:
+        Z = Visum.Net.Zones.ItemByKey(OZone[1]) # para rejonow Z
+        for POI in POIs:
+            #S1
+            Przez_PrT = Visum.Net.Nodes.ItemByKey(POI[1]) #Punkt w sieci dla POI
+            CzPrT = SPS_PrT(Z, Przez_PrT) + POI[3] # Oblicz czas PrT (2x dojscie do POI)
+
+            if POI[2] is not None:
+                Przez_PuT = Visum.Net.StopAreas.ItemByKey(POI[2]) # Przystanek dla POI (jesli jest)
+                CzPuT = SPS_PuT(Z, Przez_PuT) + POI[4]   # Oblicz czas PuT (2x dojscie do POI)
+            else:
+                CzPuT = 999999
+            print("From {} to {} in {} PrT, {} PuT".format(OZone[1], int(POI[0]), CzPrT, CzPuT))
+            df_s1.loc[df_s1.shape[0] + 1] = [OZone[1], int(POI[0]), CzPrT, CzPuT] # zapisz rekord w bazie danych
+
+            #s2
+            CzPrT = SPS_PrT(Przez_PrT, Z) + POI[3]  # Oblicz czas PrT (2x dojscie do POI)
+
+            if POI[2] is not None:
+                Przez_PuT = Visum.Net.StopAreas.ItemByKey(POI[2])  # Przystanek dla POI (jesli jest)
+                CzPuT = SPS_PuT(Przez_PuT,Z) + POI[4]  # Oblicz czas PuT (2x dojscie do POI)
+            else:
+                CzPuT = 999999
+            print("From {} to {} in {} PrT, {} PuT".format(OZone[1], int(POI[0]), CzPrT, CzPuT))
+            df_s2.loc[df_s1.shape[0] + 1] = [int(POI[0]), OZone[1], CzPrT, CzPuT]  # zapisz rekord w bazie danych
+
+    df_s1.to_csv("POI_1Stage.csv")  # zapisz baze do pliku
+    df_s2.to_csv("POI_2Stage.csv")  # zapisz baze do pliku
+    Visum.Graphic.StopDrawing = False
+
 
 def MainLoop(Visum):
     Visum.Graphic.StopDrawing = True  # nie rysuj (przyspieszenie)
@@ -125,16 +168,43 @@ def MainLoop(Visum):
     df.to_csv("POIs.csv")  # zapisz baze do pliku
     Visum.Graphic.StopDrawing = False
 
+def read_csvs():
+    df1 = pd.read_csv('POI_1Stage.csv')
+    df2 = pd.read_csv('POI_2Stage.csv')
+    Zones = df1.Z_Rejon.unique()
+    POIs = df1.Do_POI.unique()
+    df = pd.DataFrame(columns=["Z_Rejon", "Do_Rejon", "L_Podrozy", "Przez_POI", "Czas_PrT", "Czas_PuT"])
+    for OZone in Zones:
+        for DZone in Zones:
+            for POI in POIs:
+                S1 = df1[(df1.Z_Rejon==OZone) & (df1.Do_POI==POI)]
+                S2 = df2[(df2.Z_POI == POI) & (df2.Do_Rejon == DZone)]
+                df.loc[df.shape[0] + 1] = [OZone, DZone, 0, POI, S1.Czas_PrT+S2.Czas_PrT,
+                                           S1.Czas_PuT + S2.Czas_PuT]  # zapisz rekord w bazie danych
+                print("From {} to {} Via {} in {} PrT, {} PuT".format(OZone, DZone, int(POI), 0,0))
+
+    df.to_csv("Joined.csv")  # zapisz baze do pliku
+
+def make_matrix():
+    df = pd.read_csv('Joined.csv')
+
+    matrix = df[df.Czas_PrT<BUDGET].groupby(by=['Z_Rejon', 'Do_Rejon'])  # group with two indexes
+    OD = matrix.size()  # make trip matrix
+    pd.options.display.float_format = '{:,.0f}'.format
+    OD = OD.unstack().fillna(0)  # fill na with zeros, unstack the column matrix to classic view
+    print(OD.head())
 
 if __name__ == "__main__":
-
+    read_csvs()
+    make_matrix()
+    quit()
     Visum = win32com.client.Dispatch("Visum.Visum")  # uruchom Visum
     Visum.LoadVersion(VISUM_PATH)  # zaladuj plik
 
     POI2NearestNode(Visum) # przypisz wezly sieci do POI
     POI2NearestSPoint(Visum) # przypisz przystanki do POI
 
-    MainLoop(Visum) # glowny algorytm
+    MainLoopStages(Visum) # glowny algorytm
     #Visum.SaveVersion(VISUM_PATH)
 
 
