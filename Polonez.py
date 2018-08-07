@@ -99,8 +99,8 @@ def POI2NearestSPoint(Visum):
 def MainLoopStages(Visum):
     Visum.Graphic.StopDrawing = True  # nie rysuj (przyspieszenie)
     # inicjalizacja bazy dancyh (do csv)
-    df_s1 = pd.DataFrame(columns=["Z_Rejon", "Do_POI", "Czas_PrT", "Czas_PuT"])
-    df_s2 = pd.DataFrame(columns=["Z_POI", "Do_Rejon", "Czas_PrT", "Czas_PuT"])
+    df_s1 = pd.DataFrame(columns=["Z_Rejon", "POI", "Czas_PrT", "Czas_PuT"])
+    df_s2 = pd.DataFrame(columns=["POI", "Do_Rejon", "Czas_PrT", "Czas_PuT"])
 
     Zones = Visum.Net.Zones.GetMultiAttValues("No")  # rejony do iteracji
     # dane o POI
@@ -171,33 +171,43 @@ def MainLoop(Visum):
 def read_csvs():
     df1 = pd.read_csv('POI_1Stage.csv')
     df2 = pd.read_csv('POI_2Stage.csv')
-    Zones = df1.Z_Rejon.unique()
-    POIs = df1.Do_POI.unique()
-    df = pd.DataFrame(columns=["Z_Rejon", "Do_Rejon", "L_Podrozy", "Przez_POI", "Czas_PrT", "Czas_PuT"])
-    for OZone in Zones:
-        for DZone in Zones:
-            for POI in POIs:
-                S1 = df1[(df1.Z_Rejon==OZone) & (df1.Do_POI==POI)]
-                S2 = df2[(df2.Z_POI == POI) & (df2.Do_Rejon == DZone)]
-                df.loc[df.shape[0] + 1] = [OZone, DZone, 0, POI, S1.Czas_PrT+S2.Czas_PrT,
-                                           S1.Czas_PuT + S2.Czas_PuT]  # zapisz rekord w bazie danych
-                print("From {} to {} Via {} in {} PrT, {} PuT".format(OZone, DZone, int(POI), 0,0))
+    result = pd.merge(df1, df2, how='outer', on=['POI'])
+    result = result[['Z_Rejon',"POI", "Do_Rejon", u'Czas_PrT_x', u'Czas_PuT_x', u'Czas_PrT_y', u'Czas_PuT_y']]
+    result.to_csv("Joined.csv")  # zapisz baze do pliku
+    # Zones = df1.Z_Rejon.unique()
+    # POIs = df1.Do_POI.unique()
+    # df = pd.DataFrame(columns=["Z_Rejon", "Do_Rejon", "L_Podrozy", "Przez_POI", "Czas_PrT", "Czas_PuT"])
+    # for OZone in Zones:
+    #     for DZone in Zones:
+    #         for POI in POIs:
+    #             S1 = df1[(df1.Z_Rejon==OZone) & (df1.Do_POI==POI)]
+    #             S2 = df2[(df2.Z_POI == POI) & (df2.Do_Rejon == DZone)]
+    #             df.loc[df.shape[0] + 1] = [OZone, DZone, 0, POI, S1.Czas_PrT+S2.Czas_PrT,
+    #                                        S1.Czas_PuT + S2.Czas_PuT]  # zapisz rekord w bazie danych
+    #             print("From {} to {} Via {} in {} PrT, {} PuT".format(OZone, DZone, int(POI), 0,0))
 
-    df.to_csv("Joined.csv")  # zapisz baze do pliku
+    # df.to_csv("Joined.csv")  # zapisz baze do pliku
 
 def make_matrix():
+    import matplotlib.pyplot as plt
     df = pd.read_csv('Joined.csv')
+    (df.Czas_PrT_x+df.Czas_PrT_y).hist()
 
-    matrix = df[df.Czas_PrT<BUDGET].groupby(by=['Z_Rejon', 'Do_Rejon'])  # group with two indexes
+    plt.show()
+    print(df.shape)
+    print(df.head())
+
+    matrix = df[(df.Czas_PrT_x + df.Czas_PrT_y) < 100000].groupby(by=['Z_Rejon', 'Do_Rejon'])  # group with two indexes
     OD = matrix.size()  # make trip matrix
     pd.options.display.float_format = '{:,.0f}'.format
     OD = OD.unstack().fillna(0)  # fill na with zeros, unstack the column matrix to classic view
     print(OD.head())
 
 if __name__ == "__main__":
-    read_csvs()
+
     make_matrix()
     quit()
+
     Visum = win32com.client.Dispatch("Visum.Visum")  # uruchom Visum
     Visum.LoadVersion(VISUM_PATH)  # zaladuj plik
 
@@ -205,6 +215,8 @@ if __name__ == "__main__":
     POI2NearestSPoint(Visum) # przypisz przystanki do POI
 
     MainLoopStages(Visum) # glowny algorytm
+    read_csvs()
+
     #Visum.SaveVersion(VISUM_PATH)
 
 
