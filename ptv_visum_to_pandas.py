@@ -25,8 +25,8 @@ LIMIT = 100000  # number of lines to break the csv into separate files
 # NETPATH = "E:/wbr.net"
 # DMDPATH = "E:/wbr.dmd"
 VERPATH = "C://Users//Rafal//PycharmProjects//visum_to_pandas//test//test_matrices.ver"
-# VERPATH = "E:/wbr.ver"
-# OUTPATH = "E:/csvs/"
+VERPATH = "E:/wbr.ver"
+OUTPATH = "E:/"
 
 
 def _get_or_dispatch_visum(path= None):
@@ -204,4 +204,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    matrices_export_via_com(VERPATH, export_path=OUTPATH, export_list=[99321, 99421])
+    #main()
